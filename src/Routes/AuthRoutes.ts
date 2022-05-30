@@ -18,13 +18,4 @@ AuthRoutes.post('/login', function(request: Request, response: Response){
     return response.json(login)
 })
 
-AuthRoutes.delete('/logout', function(request: Request, response: Response){
-    const resp : RequestResponse = {
-        status: "success",
-        message: "Remove sessão do usuário",
-        data: []
-    }
-    return response.json(resp)
-})
-
 export default AuthRoutes
