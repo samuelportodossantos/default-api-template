@@ -17,7 +17,7 @@ export default async function AuthMiddleware(request: Request, response: Respons
     const token = request.headers['authorization'] ?? false
     if (token) {
         const auth = new Auth()
-        if ( await auth.validateJWT(token) ) {
+        if ( auth.validateJWT(token) ) {
             return next()
         }
         return response.json(error)

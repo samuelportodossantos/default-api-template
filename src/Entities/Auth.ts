@@ -13,13 +13,18 @@ export default class Auth {
     }
 
     public generateJWT() {
-        return jwt.sign({date: Date.now()}, this.secret, {
+        return jwt.sign({date: '17/12/1991'}, this.secret, {
             expiresIn: '1h'
         })
     }
 
-    public async validateJWT(token: string): Promise<any> {
-        return  jwt.verify(token, this.secret)
+    public validateJWT(token: string): boolean {
+        try {
+            jwt.verify(token.split('Bearer ').join(''), this.secret)
+            return true
+        } catch {
+            return false
+        }
     }
 
     public validateEmail(email:string):boolean{
