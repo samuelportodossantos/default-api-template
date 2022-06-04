@@ -1,10 +1,11 @@
 // import jwt from 'jsonwebtoken'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
-import RequestResponse from '../Types/requestResponse'
+import { _ResponseType } from '../Types/ResponseType'
+import UserService from './UserService'
 dotenv.config()
 
-export default class Auth {
+export default class AuthService {
 
     private secret: string
 
@@ -37,16 +38,23 @@ export default class Auth {
         return passwordValidateRegex.test(password)
     }
 
-    public login(email:string, password: string): RequestResponse{
-        let result : RequestResponse = {
+    public async login(email:string, password: string): Promise<_ResponseType>{
+        let result : _ResponseType = {
             status: 'success',
             message: 'Dados de acesso validados com sucesso!',
             data: [],
             token:  this.generateJWT()
         }
         if (! this.validateEmail(email) || !this.validatePassword(password) ) {
-            result.status = 'error'
+            result.status = 'warning'
             result.message = 'Endereço de email ou senha inválidos'
+            delete(result.token)
+        }
+        const users = new UserService()
+        const user = await users.list({email, password})
+        if (user.data.length <= 0) {
+            result.status = 'warning'
+            result.message = 'Usuário ou senha não existem'
             delete(result.token)
         }
         return result

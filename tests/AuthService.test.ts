@@ -1,10 +1,17 @@
-import Auth from "../src/Entities/Auth";
-const auth = new Auth()
+import AuthService from "../src/Services/AuthService";
+import dotenv from 'dotenv'
+const auth = new AuthService()
 
 test("Generate a valid jwt", async function(){
     const token = auth.generateJWT()
     const isValid = await auth.validateJWT(token);
     expect(isValid).toBeTruthy()
+})
+
+test("Generate a invalid jwt", async function(){
+    const token = '123'
+    const isValid = await auth.validateJWT(token);
+    expect(isValid).toBeFalsy()
 })
 
 test("Verify if username is a valid email address", function() {
@@ -45,3 +52,4 @@ test("Verify if login will return status error when passing a invalid passord or
     expect(login).toHaveProperty('status');
     expect(login.status).toBe('error')
 })
+

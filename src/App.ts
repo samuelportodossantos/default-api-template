@@ -3,6 +3,7 @@ import bodyparser from 'express'
 import dotenv from 'dotenv'
 import AuthMiddleware from './Middlewares/AuthMiddleware'
 import AuthRoutes from './Routes/AuthRoutes'
+import UserRoutes from './Routes/UserRoutes'
 dotenv.config()
 
 export default class App {
@@ -30,6 +31,7 @@ export default class App {
 
     private setRoutes(){
         this.server.use('/auth', AuthRoutes)
+        this.server.use('/users', UserRoutes)
     }
 
     private startServert(){

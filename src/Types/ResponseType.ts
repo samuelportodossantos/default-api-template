@@ -1,4 +1,4 @@
-export default interface RequestResponse {
+export type _ResponseType = {
     status: string
     message: string
     data: object[]
